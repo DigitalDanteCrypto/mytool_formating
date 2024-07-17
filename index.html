@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Process and Display Example</title>
+</head>
+<body>
+    <div id="input-area">
+    <textarea type="text" id="inputText" rows="10" cols="50" placeholder="Enter text here"></textarea>
+    <button onclick="processAndDisplay()">Process</button>
+    <p id="outputText"></p>
+    <button onclick="copyToClipboard()">Copy</button>
+</div>
+
+    <script src="script.js"></script> <!-- Assuming your script is in an external file named script.js -->
+</body>
+</html>
+<script>
+function processAndDisplay() {
+    
+    const input = document.getElementById('inputText').value;
+    
+    const items = input.split(' ');
+    
+    const processedList = items.map(item => {
+       
+        const trimmedItem = item.trim();
+        
+        if (trimmedItem.length >= 9 && trimmedItem[9] !== '-') {
+            return trimmedItem + '*';
+        }      
+        return trimmedItem;
+    });
+    
+    const output = processedList.join(',');
+    
+    document.getElementById('outputText').textContent = output;
+};
+
+async function copyToClipboard() {
+    try {
+        const outputText = document.getElementById('outputText').textContent;
+        await navigator.clipboard.writeText(outputText);
+        alert('Text copied to clipboard!');
+    } catch (err) {
+        console.error('Failed to copy text: ', err);
+        alert('Failed to copy text.');
+    }
+}
+
+
+
+--CSS-------
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: grey;
+    font-family: "IBM Plex Mono", monospace;
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+#input-area {
+    display: flex;
+    flex-direction: column;
+   
+}
+
+textarea {
+    
+    height: auto;
+}
+
+button {
+    width: 60px;
+}
